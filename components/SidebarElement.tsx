@@ -56,7 +56,7 @@ const SidebarElement = (data: any) => {
           <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
             <div className="mt-3 flex flex-col gap-2">
               {links.map((link, idx) => (
-                <Button as={Link} passHref href={link.href} variant="light" className="w-full justify-start" startContent={link.icon}>{link.label}</Button>
+                <Button as={Link} passHref href={link.href} variant="light" className="w-full justify-start" startContent={link.icon} key={idx}>{link.label}</Button>
 
               ))}
             </div>
