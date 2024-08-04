@@ -9,7 +9,6 @@ import { useEffect, useState } from "react";
 import { useTheme } from "next-themes";
 import { AcmeDarkLogo } from "@/assets/AcmeDarkLogo";
 import { usePathname, useRouter } from "next/navigation";
-import { supabase } from "@/hooks/user";
 import { createClient as createClientSignOut } from "@/utils/supabase/client";
 import { links } from "./SidebarElement";
 type NavProps = {

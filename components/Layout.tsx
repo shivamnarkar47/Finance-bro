@@ -6,7 +6,6 @@ export const NavbarElementDynamic = dynamic(()=>import("@/components/NavbarEleme
 import { AuroraBackground } from "./ui/AuroraBackground";
 import { Inter_Tight } from "next/font/google";
 import dynamic from "next/dynamic";
-import { supabase } from "@/hooks/user";
 const inter = Inter_Tight({subsets:["latin"]});
 export default function Layout({ children }: { children: ReactNode }) {
   return (

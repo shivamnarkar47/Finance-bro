@@ -1,7 +1,6 @@
 // app/providers.tsx
 'use client'
 
-import Layout from '@/components/Layout'
 import { AuroraBackground } from '@/components/ui/AuroraBackground'
 import { NextUIProvider } from '@nextui-org/react'
 import { ThemeProvider as NextThemesProvider } from 'next-themes'
