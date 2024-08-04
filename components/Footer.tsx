@@ -1,7 +1,16 @@
+"use client"
+import { usePathname } from "next/navigation";
+
 const Footer = () => {
-  return (
-    <div className="flex w-full text-center justify-center p-5">Built with ❤  by Developers.</div>
-  )
+  const pathname = usePathname();
+
+  if (!pathname.includes('/private/')) {
+    return (
+      <div className="flex w-full text-center justify-center p-5">Built with ❤  by Developers.</div>
+    )
+  }
+
+  return
 }
 
 export default Footer

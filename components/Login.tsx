@@ -1,6 +1,7 @@
 import { Input } from "@nextui-org/input"
 import { Button } from "@nextui-org/react";
 import Link from "next/link"
+import {login} from "@/app/actions"
 import { Card, CardHeader, CardBody, CardFooter } from "@nextui-org/card";
 const Login = () => {
   return (
@@ -15,11 +16,11 @@ const Login = () => {
               <Input type="email" variant="bordered" label="Email" name="email" />
               <Input type="password" variant="bordered" label="Password" className="py-4" name="password" />
             </div>
-            <Button className="w-full" color="primary" variant="solid" >Login Now !</Button>
+            <Button type="submit" formAction={login} className="w-full" color="primary" variant="solid" >Login Now !</Button>
           </form>
         </CardBody>
         <CardFooter>
-          <Link href={'/auth/register'} className="text-center w-full">Don&lsquo;t have an account yet ? <span className="underline text-blue-500">Sign up now</span></Link>
+          <Link href={'/register'} className="text-center w-full">Don&lsquo;t have an account yet ? <span className="underline text-blue-500">Sign up now</span></Link>
         </CardFooter>
       </Card>
     </div>
