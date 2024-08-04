@@ -1,6 +1,6 @@
 import { NavbarElementDynamic } from '@/components/Layout'
-import NavbarElement from '@/components/NavbarElement'
-import { supabase } from '@/hooks/user'
+import { createClient } from '@/utils/supabase/server'
+
 import { redirect } from 'next/navigation'
 import React from 'react'
 type LayoutProps = {
@@ -9,6 +9,7 @@ type LayoutProps = {
 
 
 const Layout = async ({children}:LayoutProps) => {
+  const supabase = createClient();
 const {data,error} = await supabase.auth.getUser();
   if(error){
     redirect('/login')
