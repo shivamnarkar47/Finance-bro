@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider        = "prisma-client-js"
   previewFeatures = ["multiSchema"]
 }
 
@@ -13,13 +13,29 @@ datasource db {
   provider  = "postgresql"
   url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
-  schemas           = ["public", "auth"]
 }
 
-model User {
-  id       Int     @id @default(autoincrement())
-  email    String  @unique
-  name     String?
-  password String
-  @@schema("auth") // or @@schema("public")
+model Post {
+  id          Int      @id @default(autoincrement())
+  title       String   @unique
+  description String?
+  author_name String
+  author_role String
+  author_id   String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  published   Boolean  @default(false)
+  image       String
+  upvotes     Int      @default(0)
+  downvotes   Int      @default(0)
+  contact     String?
+}
+
+model Follow {
+  id          Int      @id @default(autoincrement())
+  followerId  Int
+  followingId Int
+  follower    String[]
+  following   String[]
+  createdAt   DateTime @default(now())
 }

@@ -11,7 +11,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <NextUIProvider>
       <NextThemesProvider defaultTheme="dark" attribute="class">
         <AuroraBackground>
-          <div className={`min-h-screen w-full flex flex-col text-foreground bg-background ${inter.className} `}>
+          <div className={`min-h-full w-full flex flex-col text-foreground bg-background ${inter.className} `}>
             {children}
           </div>
         </AuroraBackground>

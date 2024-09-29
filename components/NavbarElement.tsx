@@ -3,14 +3,16 @@ import { AcmeLogo } from "@/assets/AcmeLogo";
 import ThemeSwitcher from "./ThemeSwitcher"
 import { User } from "@nextui-org/user"
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem } from "@nextui-org/navbar";
-import { Button, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
-import Link from "next/link";
-import { useEffect, useState } from "react";
+import {  Button, Input, Dropdown, DropdownItem, DropdownMenu, DropdownTrigger } from "@nextui-org/react";
+import TransitionLink, { sleep } from "@/utils/TransitionLink";
+import { useState } from "react";
 import { useTheme } from "next-themes";
 import { AcmeDarkLogo } from "@/assets/AcmeDarkLogo";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient as createClientSignOut } from "@/utils/supabase/client";
 import { links } from "./SidebarElement";
+import { clear } from "console";
+import { SearchIcon } from "lucide-react";
 type NavProps = {
   data?: any
 }
@@ -20,6 +22,18 @@ const NavbarElement = (data: NavProps) => {
   const router = useRouter();
   const pathname = usePathname();
   console.log(pathname)
+
+  const handleTransition = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, href: string) => {
+    e.preventDefault();
+    const body = document.querySelector("body");
+    body?.classList.add("page-transition");
+    await sleep(500)
+    router.push(href)
+    await sleep(500)
+
+    body?.classList.remove("page-transition");
+
+  }
 
   const signOut = async () => {
     const supabase = createClientSignOut();
@@ -63,38 +77,70 @@ const NavbarElement = (data: NavProps) => {
       <NavbarContent className="sm:hidden pr-3" justify="center">
         {theme == "dark" ?
           <NavbarBrand>
-            <Link href={'/'} className="flex items-center">
-              <AcmeLogo />
-              <p className="font-bold text-inherit">Finance Bro</p>
-            </Link>
+            {pathname.includes("/private/") ?
+              (
+                <TransitionLink href={'/private'} className="flex items-center">
+                  <AcmeLogo />
+                  <p className="font-bold text-inherit">Finance Bro</p>
+                </TransitionLink>
+              ) :
+              (
+                <TransitionLink href={'/'} className="flex items-center">
+                  <AcmeLogo />
+                  <p className="font-bold text-inherit">Finance Bro</p>
+                </TransitionLink>
+
+              )}
           </NavbarBrand>
           :
           <NavbarBrand>
-            <Link href={'/'} className="flex items-center">
-              <AcmeDarkLogo />
-              <p className="font-bold text-inherit">Finance Bro</p>
-            </Link>
+            {pathname.includes("/private/") ?
+              <TransitionLink href={'/private/'} className="flex items-center">
+                <AcmeDarkLogo />
+                <p className="font-bold text-inherit">Finance Bro</p>
+              </TransitionLink> :
+              <TransitionLink href={'/'} className="flex items-center">
+                <AcmeDarkLogo />
+                <p className="font-bold text-inherit">Finance Bro</p>
+              </TransitionLink>
+            }
           </NavbarBrand>
         }
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-4" justify="start">
         <NavbarBrand>
-          <Link href={'/'} className="flex items-center">{theme == "dark" ? <AcmeLogo /> : theme == "light" ? <AcmeDarkLogo /> : <AcmeLogo />}
-            <p className="font-bold text-inherit">Finance Bro</p>
-          </Link>
+          {pathname.includes("/private/")
+            ?
+            <TransitionLink href={'/private/'} className="flex items-center">{theme == "dark" ? <AcmeLogo /> : theme == "light" ? <AcmeDarkLogo /> : <AcmeLogo />}
+              <p className="font-bold text-inherit">Finance Bro</p>
+            </TransitionLink>
+            :
+            <TransitionLink href={'/'} className="flex items-center">
+              {theme == "dark" ?
+                <AcmeLogo />
+                :
+                theme == "light" ? <AcmeDarkLogo />
+                  :
+                  <AcmeLogo />
+              }
+              <p className="font-bold text-inherit">Finance Bro</p>
+            </TransitionLink>
+          }
         </NavbarBrand>
 
       </NavbarContent>
       <NavbarContent className="hidden sm:flex gap-4" justify="center">
 
         {
-          !pathname.includes("/private/") && menuItems.map((item, index) =>
+          !pathname.includes("/private/") ? menuItems.map((item, index) =>
             <NavbarItem key={index}>
-              <Link color="foreground" href={item.href}>
+              <TransitionLink href={item.href}>
                 {item.name != "Login" && item.name}
-              </Link>
+              </TransitionLink>
             </NavbarItem>
-          )}
+          ) :
+            <Input endContent={<button><SearchIcon color="#e5e5e5"  size={'20'}/></button>} />
+        }
 
       </NavbarContent>
 
@@ -106,16 +152,17 @@ const NavbarElement = (data: NavProps) => {
               <Button onClick={signOut}>Logout</Button>
 
               :
-              <Link href="/login">Login</Link>
+              <TransitionLink href="/login">Login</TransitionLink>
 
           }
         </NavbarItem>
         <NavbarItem>
           {
             !pathname.includes("/private/") &&
-            <Button as={Link} passHref color="primary" href="/register" variant="shadow">
+            <Button color="primary" variant="shadow" type="button" onClick={(e) => handleTransition(e, "/register")}>
               Sign Up
-            </Button>}
+            </Button>
+          }
         </NavbarItem>
         <NavbarItem>
           <ThemeSwitcher />
@@ -126,18 +173,17 @@ const NavbarElement = (data: NavProps) => {
         <NavbarMenu className="flex p-4">
           <div className="flex flex-1 flex-col">
 
-          {links.map((item, index) => (
-            <NavbarMenuItem key={`${item}-${index}`}>
-              <Link
-                className={"text-foreground flex "}
-                href={item.href}
+            {links.map((item, index) => (
+              <NavbarMenuItem key={`${item}-${index}`}>
+                <TransitionLink
+                  className={"text-foreground flex "}
+                  href={item.href}
+                >
+                  <Button variant="light" className="w-full justify-start" startContent={item.icon}>{item.label}</Button>
+                </TransitionLink>
 
-              >
-                <Button variant="light" className="w-full justify-start" startContent={item.icon}>{item.label}</Button>
-              </Link>
-
-            </NavbarMenuItem>
-          ))}
+              </NavbarMenuItem>
+            ))}
           </div>
           <Dropdown placement="top" className="text-foreground bg-background ">
             <DropdownTrigger>
@@ -183,13 +229,13 @@ const NavbarElement = (data: NavProps) => {
 
             {menuItems.map((item, index) => (
               <NavbarMenuItem key={`${item}-${index}`}>
-                <Link
+                <TransitionLink
                   className={"text-foreground flex"}
                   href={item.href}
 
                 >
                   <Button variant="light" className="w-full justify-start" >{item.name}</Button>
-                </Link>
+                </TransitionLink>
               </NavbarMenuItem>
             ))}
           </NavbarMenu>

@@ -5,12 +5,12 @@ const nextConfig = {
       {
         source: '/',
         destination: "/home",
-        permanent: true
+        permanent: false
       },
       {
         source: '/dashboard',
         destination: '/private/dashboard',
-        permanent: true
+        permanent: false
       }
     ]
   }

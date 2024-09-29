@@ -5,6 +5,8 @@ import { redirect } from 'next/navigation'
 
 import { createClient } from '@/utils/supabase/server'
 import { createClient as createClientSignOut } from '@/utils/supabase/client'
+import { sleep } from '@/utils/TransitionLink'
+
 export async function login(formData: FormData) {
   const supabase = createClient()
 
@@ -20,9 +22,8 @@ export async function login(formData: FormData) {
   if (error) {
     redirect('/error')
   }
-
-  revalidatePath('/', 'layout')
-  redirect('/private/')
+    revalidatePath('/', 'layout')
+  redirect("/private")
 }
 
 export async function signup(formData: FormData) {
@@ -47,9 +48,9 @@ export async function signup(formData: FormData) {
     console.log(error)
     redirect('/error')
   }
-  else{
-  revalidatePath('/', 'layout')
-  redirect('/private/dashboard')
+  else {
+    revalidatePath('/', 'layout')
+    redirect('/private/dashboard')
   }
 }
 

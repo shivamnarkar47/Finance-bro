@@ -24,6 +24,18 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+    transition-property: opacity,background,transform,filter;
+  transition-timing-function: ease-in-out;
+  transition-duration: 500ms;
+}
+ 
+*::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide vertical scrollbar */
+*::-webkit-scrollbar-vertical {
+  display: none;
 }
 
 @layer utilities {
@@ -31,3 +43,11 @@ body {
     text-wrap: balance;
   }
 }
+
+.page-transition{
+  opacity: 0;
+  background: #000;
+  transform: translateY(40);
+  filter: blur(12px);
+}
+

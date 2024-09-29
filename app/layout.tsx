@@ -2,9 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Inter_Tight } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/providers/Providers";
-import { AuroraBackground } from "@/components/ui/AuroraBackground";
-import NavbarElement from "@/components/NavbarElement";
-import Footer from "@/components/Footer";
 const inter = Inter_Tight({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -23,7 +20,6 @@ export default function RootLayout({
           <Providers>
             {children}
           </Providers>
-
       </body>
     </html>
   );

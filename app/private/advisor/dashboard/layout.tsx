@@ -1,4 +1,3 @@
-import Dashboard from '@/components/Dashboard'
 import { NavbarElementDynamic } from '@/components/Layout'
 import { createClient } from '@/utils/supabase/server'
 
@@ -16,11 +15,9 @@ const Layout = async ({ children }: LayoutProps) => {
     redirect('/login')
   }
   return (
-    <div className='h-[90vh]'>
+    <div className='h-full'>
       <NavbarElementDynamic data={data} />
-      <Dashboard user={data.user} >
-        {children}
-      </Dashboard>
+      {children}
     </div>
   )
 }
